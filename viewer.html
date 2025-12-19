@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Display invitados · Bingo Acebsa</title>
+    <meta name="theme-color" content="#101020">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Chivo:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <!-- Mobile portrait overrides: specialized layout for phones -->
+    <link rel="stylesheet" href="styles.mobile.css" media="screen and (orientation: portrait), screen and (max-width: 768px)">
+        <!-- FORCE INLINE MOBILE FIX: make viewer ball size independent from font-size -->
+        <style id="viewer-mobile-force">
+            @media screen and (orientation: portrait), screen and (max-width: 768px) {
+                /* use CSS variable if available, fallback to 90vw */
+                #viewerBall {
+                    width: var(--ball-size, 50vw) !important;
+                    height: var(--ball-size, 50vw) !important;
+                    max-width: 500px !important;
+                    max-height: 500px !important;
+                    min-width: calc(var(--ball-size, 10vw)) !important;
+                    min-height: calc(var(--ball-size, 10vw)) !important;
+                    border-radius: 50% !important;
+                    display: grid !important;
+                    place-items: center !important;
+                    overflow: hidden !important;
+                    box-shadow: 0 14px 32px rgba(0,0,0,0.35) !important;
+                    font-size: 0 !important; /* decouple font from box sizing */
+                }
+                /* number inside the ball: independent font-size */
+                #viewerBallNumber, #viewerBall > span {
+                    font-size: clamp(28px, 6vw, 72px) !important;
+                    line-height: 1 !important;
+                    display: block !important;
+                }
+            }
+        </style>
+</head>
+<body>
+    <div class="atmosphere"></div>
+    <div class="page-shell viewer-shell">
+        <header class="viewer-hero">
+            <div class="viewer-brand">
+                <img class="viewer-logo" src="assets/acebsa.png" alt="Logo Acebsa">
+                <div class="viewer-tagline">
+                    <p class="viewer-note">Bingocebsa.</p>
+                    <h1>El Bingo del turrón y el Jamón Navideño de ACEBSA</h1>
+                </div>
+            </div>
+        </header>
+
+        <main class="viewer-main">
+            <section class="viewer-ball-card">
+                <div class="ball-stack viewer-ball-stack">
+                    <div class="ball-halo"></div>
+                    <div class="bingo-ball viewer-ball" id="viewerBall">
+                        <span id="viewerBallNumber">--</span>
+                    </div>
+                </div>
+                <p id="viewerRemaining" class="viewer-remaining">90 bolas restantes</p>
+                <div class="history-block viewer-history">
+                    <div class="grid-header">
+                        <h2>Últimos números</h2>
+                    </div>
+                    <div class="history-list viewer-history-list" id="viewerHistory"></div>
+                </div>
+            </section>
+
+            <section class="grid-block viewer-grid-block">
+                <div class="grid-header">
+                    <h2>Cartón maestro</h2>
+                </div>
+                <div class="bingo-grid" id="viewerGrid"></div>
+            </section>
+        </main>
+    </div>
+
+    <script src="viewer.js" defer></script>
+</body>
+</html>

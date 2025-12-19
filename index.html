@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bingo Acebsa</title>
+    <meta name="theme-color" content="#101020">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Chivo:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="atmosphere"></div>
+    <div class="page-shell">
+        <header class="hero">
+            <div class="logo-block">
+                <img class="logo" src="assets/acebsa.png" alt="Logo Acebsa">
+                <div class="tagline">
+                    <p class="eyebrow">Bingocebsa</p>
+                    <h1>El Bingo del turrón y el Jamón Navideño de ACEBSA</h1>
+                </div>
+            </div>
+            <div class="hero-main">
+                <div class="ball-stage">
+                    <div class="ball-row">
+                        <div class="stealth-controls">
+                            <button id="toggleUtilities" class="ghost">
+                                <span>Panel</span>
+                                <svg width="14" height="14" viewBox="0 0 20 20" aria-hidden="true">
+                                    <path d="M5 8l5 5 5-5" fill="none" stroke="#f6f2ff" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                            </button>
+                            <div class="utility-panel" id="utilityPanel">
+                                <p>Opciones rápidas</p>
+                                <button id="resetButton" class="ghost danger">Resetear partida</button>
+                            </div>
+                        </div>
+                        <div class="ball-stack">
+                            <div class="ball-halo"></div>
+                            <div class="bingo-ball" id="bingoBall">
+                                <span id="ballNumber">--</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button id="spinButton" class="cta">Girar bola</button>
+                </div>
+                <div class="history-block hero-history">
+                    <div class="grid-header">
+                        <h2>Historial inmediato</h2>
+                        <button id="clearHistory" class="ghost tiny">Limpiar historial</button>
+                    </div>
+                    <div class="history-list" id="historyList"></div>
+                </div>
+            </div>
+        </header>
+
+        <div class="audience-link">
+            <a class="ghost viewer-link" href="viewer.html" target="_blank" rel="noopener">
+                Pantalla para invitados
+            </a>
+            <span>Abre esta vista en otra pantalla para mostrar únicamente los números marcados.</span>
+        </div>
+
+        <main>
+            <section class="dashboard">
+                <div class="grid-block">
+                    <div class="grid-header">
+                        <h2>Cartón maestro</h2>
+                        <span id="remainingLabel">90 bolas restantes</span>
+                    </div>
+                    <div class="bingo-grid" id="bingoGrid"></div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div class="modal" id="confirmModal" aria-hidden="true">
+        <div class="modal-card">
+            <h3>¿Reiniciar partida?</h3>
+            <p>Esto borrará todos los números sorteados y devolverá las 90 bolas al bombo.</p>
+            <div class="modal-actions">
+                <button class="ghost" data-modal="cancel">Cancelar</button>
+                <button class="danger" data-modal="confirm">Resetear</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js" defer></script>
+</body>
+</html>

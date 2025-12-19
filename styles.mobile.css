@@ -1,0 +1,64 @@
+/* Vertical/mobile-first override – makes the viewer easy to read on phones in portrait.
+   Only overrides the base styles; safe to load after styles.css. */
+
+:root{
+  --bg-deep:#040311;
+  --bg-glow:#0f1034;
+  --accent:#f04d8f;
+  --accent-2:#45f1ff;
+  --text-main:#f7f3ff;
+  --muted:#b9b4d2;
+  --chip-size:50px;
+  --chip-gap:10px;
+  /* Bigger ball on mobile portrait for better visibility */
+  --ball-size: clamp(320px, 90vw, 700px);
+  --cell-gap:8px;
+  --cell-radius:12px;
+}
+
+body{padding:1px!important;background:radial-gradient(circle at 20% 18%,rgba(240,77,143,0.16),transparent 45%),radial-gradient(circle at 90% 10%,rgba(69,241,255,0.18),transparent 55%),linear-gradient(180deg,var(--bg-deep),#0c0a23)!important}
+.page-shell{width:100%!important;max-width:480px!important;margin:0 auto!important}
+
+/* Hero compact & centered */
+.viewer-hero{flex-direction:column!important;align-items:flex-start!important;gap:6px!important;padding:10px 12px!important;border-radius:16px!important;background:rgba(255,255,255,0.94)!important}
+.viewer-brand{width:100%!important;justify-content:space-between!important;gap:10px!important}
+.viewer-logo{width:120px!important}
+.viewer-tagline h1{font-size:1.05rem!important;line-height:1.25!important}
+.viewer-note{font-size:0.8rem!important;color:#58546d!important}
+
+/* Layout: full column stack, history first */
+.viewer-main{display:flex!important;flex-direction:column!important;gap:14px!important;margin-top:14px!important}
+.viewer-main>*{width:100%!important}
+.viewer-main>.viewer-history{order:-1!important}
+
+
+/* Ball card centered */
+.viewer-ball-card{--ball-size:var(--ball-size);background:rgba(10,8,28,0.9)!important;border:1px solid rgba(255,255,255,0.08)!important;border-radius:18px!important;padding:14px!important;gap:10px!important;align-items:center!important}
+.viewer-ball-stack{width:var(--ball-size)!important;height:var(--ball-size)!important;min-width:var(--ball-size)!important;min-height:var(--ball-size)!important}
+.viewer-ball{width:var(--ball-size)!important;height:var(--ball-size)!important;min-width:var(--ball-size)!important;min-height:var(--ball-size)!important;box-shadow:0 14px 32px rgba(0,0,0,0.4)!important;font-size:0!important}
+.viewer-ball span,
+.viewer-ball #viewerBallNumber{font-size:clamp(48px,22vw,100px)!important;display:block!important}
+.viewer-remaining{margin:0!important;font-size:0.9rem!important;color:var(--muted)!important;letter-spacing:0.06em!important}
+
+/* History: big, high-contrast chips, two rows max with fade */
+.viewer-history{background:rgba(10,8,28,0.9)!important;border:1px solid rgba(255,255,255,0.08)!important;border-radius:16px!important;padding:12px!important;gap:8px!important}
+.viewer-history .grid-header{margin:0 0 4px 0!important}
+.viewer-history .grid-header h2{font-size:1rem!important;margin:0!important}
+.viewer-history-list{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(52px,1fr))!important;gap:var(--chip-gap)!important;max-height:calc(2 * (var(--chip-size) + var(--chip-gap)))!important;overflow:hidden!important;padding:4px 0 6px!important;mask-image:linear-gradient(180deg,#000 0%,#000 82%,transparent)!important;-webkit-mask-image:linear-gradient(180deg,#000 0%,#000 82%,transparent)!important}
+.viewer-history .history-item{width:var(--chip-size)!important;height:var(--chip-size)!important;border-radius:14px!important;font-size:1rem!important;box-shadow:0 8px 18px rgba(0,0,0,0.25)!important}
+.viewer-history .history-item:first-child{transform:scale(1.03)!important}
+
+/* Grid: single column card with square cells and tighter spacing */
+.viewer-grid-block{background:rgba(10,8,28,0.9)!important;border:1px solid rgba(255,255,255,0.08)!important;border-radius:18px!important;padding:12px!important}
+.viewer-grid-block .grid-header h2{margin:0 0 8px 0!important;font-size:1rem!important}
+.bingo-grid{display:grid!important;grid-template-columns:repeat(10,1fr)!important;gap:6px!important}
+.bingo-cell{aspect-ratio:1/1!important;border-radius:var(--cell-radius)!important;font-weight:700!important;display:grid!important;place-items:center!important;padding:0!important}
+.bingo-cell .num{font-size:0.95rem!important}
+
+/* Slight tightening on very small widths */
+@media(max-width:360px){
+  :root{--chip-size:46px;--chip-gap:8px;--ball-size:clamp(130px, 50vw, 220px)}
+  .viewer-logo{width:110px!important}
+  .viewer-history-list{grid-template-columns:repeat(auto-fit,minmax(48px,1fr))!important}
+}
+

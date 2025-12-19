@@ -1,0 +1,122 @@
+/* Clean, mobile-first stylesheet for Bingo viewer + host
+   - Mobile-first layout: history above ball, stacked view
+   - Square bingo cells via aspect-ratio: 1 / 1
+   - Minimal media query at wider sizes to use two-column layout
+   - Clear variables for easy tuning
+*/
+
+:root{
+  --bg-deep: #05030e;
+  --bg-glow: #11113f;
+  --accent: #f04d8f;
+  --accent-2: #45f1ff;
+  --text-main: #f7f3ff;
+  --muted: #bab5d6;
+  --grid-bg: rgba(255,255,255,0.04);
+  --grid-hit: linear-gradient(145deg,#ffd479,#ff9f1a);
+  --ball-size: clamp(140px, 34vw, 300px);
+  --chip-size: 44px;
+  --chip-gap: 8px;
+  --cell-gap: 8px;
+  --cell-radius: 12px;
+  font-family: "Chivo", "Space Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  min-height:100vh;
+  background:linear-gradient(120deg,var(--bg-deep),var(--bg-glow));
+  color:var(--text-main);
+  display:flex;
+  justify-content:center;
+  padding:18px;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
+.page-shell{width:min(1200px,100%);}
+
+/* Viewer shell */
+.viewer-shell{width:100%;}
+.viewer-hero{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  background:rgba(255,255,255,0.96);
+  color:#060613;
+  padding:12px 14px;
+  border-radius:18px;
+  border:1px solid rgba(5,3,14,0.06);
+}
+.viewer-brand{display:flex;align-items:center;gap:10px}
+.viewer-logo{width:140px;height:auto}
+.viewer-tagline h1{margin:0;font-size:1.1rem;color:#05030e}
+.viewer-note{margin:0;color:var(--muted);font-size:0.9rem}
+
+/* main viewer layout - mobile first (stacked) */
+.viewer-main{display:flex;flex-direction:column;gap:12px;margin-top:12px}
+
+.viewer-ball-card{
+  --ball-size: var(--ball-size);
+  background:rgba(6,5,21,0.75);
+  border-radius:16px;
+  padding:12px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:10px;
+  text-align:center;
+}
+.viewer-ball-stack{width:var(--ball-size);height:var(--ball-size);display:flex;align-items:center;justify-content:center}
+.bingo-ball{width:calc(var(--ball-size) - 4px);height:calc(var(--ball-size) - 4px);border-radius:50%;background:radial-gradient(circle at 30% 30%,#fff,#ffd8ec 45%,#f04d8f 85%);display:grid;place-items:center;color:#230011;font-size:clamp(28px,8vw,48px);font-weight:700}
+
+/* history (recent numbers) shown above ball on mobile */
+.viewer-history{background:rgba(6,5,21,0.72);padding:10px;border-radius:12px;display:flex;flex-direction:column;gap:8px}
+.viewer-history .grid-header{display:flex;justify-content:space-between;align-items:center}
+.viewer-history-list{display:flex;flex-wrap:wrap;gap:var(--chip-gap);align-items:center;max-height:calc(2 * (var(--chip-size) + var(--chip-gap)));overflow:auto;padding:6px 2px}
+.viewer-history .history-item{width:var(--chip-size);height:var(--chip-size);display:grid;place-items:center;border-radius:calc(var(--chip-size) / 2);background:rgba(69,241,255,0.14);border:1px solid rgba(69,241,255,0.35);color:#e5fbff;font-weight:700;font-size:0.95rem}
+.viewer-history .history-item:first-child{background:rgba(243,77,143,0.22);border-color:rgba(243,77,143,0.45);color:#fff}
+
+/* grid block and bingo grid */
+.viewer-grid-block{background:rgba(6,5,21,0.7);padding:12px;border-radius:12px}
+.bingo-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:var(--cell-gap)}
+
+/* Make cells square using aspect-ratio and center the number */
+.bingo-cell{
+  aspect-ratio: 1 / 1;
+  display:grid;
+  place-items:center;
+  background:var(--grid-bg);
+  border-radius:var(--cell-radius);
+  text-align:center;
+  font-weight:700;
+  color:var(--muted);
+  border:1px solid rgba(255,255,255,0.06);
+  padding:0.15rem;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+.bingo-cell .num{font-size:clamp(0.9rem,2.6vw,1.25rem);}
+.bingo-cell.hit{background:var(--grid-hit);color:#1a1100;border-color:rgba(255,255,255,0.18);box-shadow:0 8px 18px rgba(255,188,87,0.18);transform:translateY(-2px)}
+
+.history-list{display:flex;gap:10px}
+.cta{border:none;background:linear-gradient(120deg,var(--accent),var(--accent-2));padding:10px 16px;border-radius:999px;color:#05030e;font-weight:700;cursor:pointer}
+.tiny{font-size:0.82rem}
+
+/* Wider screens: two-column layout and more generous grid */
+@media (min-width: 880px){
+  .viewer-main{display:grid;grid-template-columns:360px 1fr;gap:18px;align-items:start}
+  .bingo-grid{grid-template-columns:repeat(10,1fr);gap:10px}
+  .viewer-ball-card{padding:16px;border-radius:18px}
+  .viewer-history-list{max-height:none;overflow:visible}
+}
+
+/* A small polish at very wide widths */
+@media (min-width: 1200px){
+  :root{--ball-size: clamp(200px, 20vw, 320px)}
+  .page-shell{width:min(1100px,100%)}
+}
+
+/* End of clean stylesheet */
