@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 120" role="img" aria-label="Logo Acebsa">
+  <defs>
+    <linearGradient id="redStroke" x1="0%" y1="50%" x2="100%" y2="50%">
+      <stop offset="0%" stop-color="#ff2a2a"/>
+      <stop offset="50%" stop-color="#ff4545"/>
+      <stop offset="100%" stop-color="#ff2a2a"/>
+    </linearGradient>
+  </defs>
+  <rect width="300" height="120" fill="transparent"/>
+  <polygon points="150 5 295 60 150 115 5 60" fill="none" stroke="url(#redStroke)" stroke-width="10" stroke-linejoin="round"/>
+  <text x="150" y="78" text-anchor="middle" font-size="58" font-family="'Eurostile', 'Bank Gothic', 'Arial', sans-serif" fill="#050505" letter-spacing="3">
+    acebsa
+  </text>
+</svg>

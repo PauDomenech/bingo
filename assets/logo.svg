@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" role="img" aria-label="Logo Bingo">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#45f1ff"/>
+      <stop offset="60%" stop-color="#f04d8f"/>
+      <stop offset="100%" stop-color="#ffaf4d"/>
+    </linearGradient>
+    <linearGradient id="ring" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#ffe0f0" stop-opacity="0.4"/>
+    </linearGradient>
+  </defs>
+  <circle cx="90" cy="90" r="88" fill="url(#bg)"/>
+  <circle cx="90" cy="90" r="66" fill="none" stroke="url(#ring)" stroke-width="10"/>
+  <text x="90" y="102" font-family="Space Grotesk, sans-serif" font-size="68" font-weight="600" text-anchor="middle" fill="#05030e">B</text>
+</svg>
