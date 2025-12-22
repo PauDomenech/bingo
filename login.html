@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Acceso - Bingo Acebsa</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body{display:flex;align-items:center;justify-content:center;height:100vh;background:#0f1020;color:#f6f2ff}
+    .card{background:rgba(255,255,255,0.04);padding:28px;border-radius:8px;min-width:320px}
+    .field{display:flex;flex-direction:column;margin-bottom:12px}
+    .error{color:#ffb3b3;margin-bottom:8px}
+    a.viewer{display:inline-block;margin-top:8px;color:#cfe9ff}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Introduce la contraseña</h2>
+    <p>Solo usuarios autorizados pueden entrar a la vista principal.</p>
+    <form method="post" action="/login">
+      <div class="field">
+        <label for="password">Contraseña</label>
+        <input id="password" name="password" type="password" required autofocus>
+      </div>
+      <div>
+        <button type="submit">Entrar</button>
+      </div>
+    </form>
+    <div>
+      <a class="viewer" href="viewer.html">Abrir pantalla para invitados (sin contraseña)</a>
+    </div>
+    <div class="error">
+      <!-- show error if present -->
+      <script>
+        const params = new URLSearchParams(location.search);
+        if (params.get('error')) document.currentScript.parentElement.textContent = 'Contraseña incorrecta.';
+      </script>
+    </div>
+  </div>
+</body>
+</html>

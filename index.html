@@ -9,27 +9,18 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Chivo:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
-    <script>
-    const PASSWORD = "micontraseña123"; // cámbiala
-
-    function checkPassword() {
-      let input = document.getElementById('pass').value;
-      if (input === PASSWORD) {
-        document.getElementById('main-content').style.display = 'block';
-        document.getElementById('login').style.display = 'none';
-      } else {
-        alert("Contraseña incorrecta");
-      }
-    }
-  </script>
+        <style>
+            /* Auth modal styles */
+            #authModal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.6);z-index:9999}
+            #authCard{background:#0f1020;color:#f6f2ff;padding:24px;border-radius:8px;min-width:300px;box-shadow:0 6px 30px rgba(0,0,0,0.6)}
+            #authCard h2{margin:0 0 8px}
+            #authCard .field{margin-top:8px}
+            #authCard input{width:100%;padding:8px;margin-top:6px;border-radius:4px;border:1px solid rgba(255,255,255,0.08);background:transparent;color:inherit}
+            #authCard button{margin-top:12px;padding:8px 12px;border-radius:6px}
+        </style>
 </head>
 <body>
     <div class="atmosphere"></div>
-    <div id="login">
-        <h2>Acceso autorizado</h2>
-        <input type="password" id="pass" placeholder="Contraseña">
-        <button onclick="checkPassword()">Entrar</button>
-    </div>
     <div class="page-shell">
         <header class="hero">
             <div class="logo-block">
@@ -105,7 +96,64 @@
     </div>
 
     <script src="app.js" defer></script>
+        <script>
+            (function(){
+                const SESSION_KEY = 'bingo_authed_v1';
+                const DEFAULT_PW = 'BingoMarta2025!';
+                if (sessionStorage.getItem(SESSION_KEY)) return;
+
+                // Create modal
+                const modal = document.createElement('div');
+                modal.id = 'authModal';
+                modal.innerHTML = `
+                    <div id="authCard">
+                        <h2>Acceso</h2>
+                        <p>Introduce la contraseña para controlar la partida.</p>
+                        <div class="field">
+                            <label for="authPassword">Contraseña</label>
+                            <input id="authPassword" type="password" autocomplete="current-password" />
+                        </div>
+                        <div>
+                            <button id="authSubmit">Entrar</button>
+                        </div>
+                        <div style="margin-top:8px;font-size:13px;color:#cfe9ff"><a href="viewer.html">Abrir pantalla para invitados (pública)</a></div>
+                    </div>`;
+                document.documentElement.appendChild(modal);
+
+                const pwInput = modal.querySelector('#authPassword');
+                const submit = modal.querySelector('#authSubmit');
+                pwInput.focus();
+
+                function accept(){
+                    sessionStorage.setItem(SESSION_KEY, '1');
+                    modal.remove();
+                }
+
+                submit.addEventListener('click', tryAuth);
+                pwInput.addEventListener('keydown', (e)=>{ if(e.key==='Enter') tryAuth(); });
+
+                function tryAuth(){
+                    const val = pwInput.value || '';
+                    // Try server-side auth first
+                    fetch('/login', {method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body:'password='+encodeURIComponent(val), credentials:'same-origin'})
+                        .then(resp=>{
+                            if (resp.redirected || resp.ok) {
+                                accept();
+                                return;
+                            }
+                            // fallback to client check
+                            if (val === DEFAULT_PW) accept(); else showError();
+                        }).catch(()=>{
+                            if (val === DEFAULT_PW) accept(); else showError();
+                        });
+                }
+
+                function showError(){
+                    pwInput.value = '';
+                    pwInput.placeholder = 'Contraseña incorrecta';
+                    pwInput.focus();
+                }
+            })();
+        </script>
 </body>
 </html>
-
-
