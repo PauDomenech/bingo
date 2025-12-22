@@ -9,6 +9,19 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Chivo:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <script>
+    const PASSWORD = "micontraseña123"; // cámbiala
+
+    function checkPassword() {
+      let input = document.getElementById('pass').value;
+      if (input === PASSWORD) {
+        document.getElementById('main-content').style.display = 'block';
+        document.getElementById('login').style.display = 'none';
+      } else {
+        alert("Contraseña incorrecta");
+      }
+    }
+  </script>
 </head>
 <body>
     <div class="atmosphere"></div>
@@ -89,3 +102,4 @@
     <script src="app.js" defer></script>
 </body>
 </html>
+
