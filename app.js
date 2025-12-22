@@ -198,6 +198,7 @@ const hydrateState = () => {
 };
 
 const drawNumber = () => {
+    console.log("Girnado Bola")
     if (!availableNumbers.length) {
         syncSpinButton();
         return;
@@ -285,3 +286,4 @@ const init = () => {
 };
 
 init();
+
