@@ -91,6 +91,8 @@ const renderHistory = () => {
     viewerHistory.appendChild(fragment);
 };
 
+
+// Escucha cambios en Firebase y actualiza la vista
 const applyState = payload => {
     if (!payload || !Array.isArray(payload.drawn)) return;
     const prevLength = drawnNumbers.length;
@@ -115,7 +117,22 @@ const applyState = payload => {
     }
 };
 
+
 const readStoredState = () => {
+    // Si hay Firebase, escucha en tiempo real
+    if (window.db) {
+        window.db.ref("bingo/drawnNumbers").on("value", function(snapshot) {
+            const arr = snapshot.val();
+            if (Array.isArray(arr)) {
+                applyState({ drawn: arr });
+            } else {
+                applyState({ drawn: [] });
+            }
+            hasInit = true;
+        });
+        return;
+    }
+    // Fallback local
     const raw = localStorage.getItem(STATE_KEY);
     if (!raw) {
         applyState({ drawn: [] });
@@ -133,18 +150,3 @@ const readStoredState = () => {
 
 buildGrid();
 readStoredState();
-
-if (syncChannel) {
-    syncChannel.addEventListener("message", event => applyState(event.data));
-}
-
-window.addEventListener("storage", event => {
-    if (event.key === STATE_KEY && event.newValue) {
-        try {
-            const payload = JSON.parse(event.newValue);
-            applyState(payload);
-        } catch (error) {
-            console.warn("No se pudo sincronizar el visor mediante localStorage.", error);
-        }
-    }
-});

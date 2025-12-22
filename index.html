@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Chivo:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <!-- ...existing code... -->
         <style>
             /* Auth modal styles */
             #authModal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.6);z-index:9999}
@@ -95,7 +96,25 @@
         </div>
     </div>
 
-    <script src="app.js" defer></script>
+    <!-- Firebase (al final para asegurar disponibilidad global) -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyAO5SdwiG0gEDzHJ3dZ4Las9HoeuwOMhNU",
+            authDomain: "bingo-72ff0.firebaseapp.com",
+            databaseURL: "https://bingo-72ff0-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "bingo-72ff0",
+            storageBucket: "bingo-72ff0.appspot.com",
+            messagingSenderId: "350724186302",
+            appId: "1:350724186302:web:5f0bcea952f78632df7eef"
+        };
+        firebase.initializeApp(firebaseConfig);
+        window.db = firebase.database();
+    </script>
+    <script src="app.js"></script>
+</body>
+</html>
         <script>
             (function(){
                 const SESSION_KEY = 'bingo_authed_v1';
@@ -140,7 +159,7 @@
                             if (resp.redirected || resp.ok) {
                                 accept();
                                 return;
-                            } //Hola
+                            }
                             // fallback to client check
                             if (val === DEFAULT_PW) accept(); else showError();
                         }).catch(()=>{
@@ -157,4 +176,3 @@
         </script>
 </body>
 </html>
-

@@ -131,6 +131,8 @@ const refreshUI = () => {
     syncSpinButton();
 };
 
+
+// Sincroniza el estado con Firebase
 const persistState = () => {
     const payload = { drawn: drawnNumbers, sender: CLIENT_ID };
     try {
@@ -139,10 +141,16 @@ const persistState = () => {
         console.warn("No se pudo guardar el estado del bingo.", error);
     }
     syncChannel?.postMessage(payload);
+    // Firebase: guarda el array de bolas extraídas
+    if (window.db) {
+        window.db.ref("bingo/drawnNumbers").set(drawnNumbers);
+    }
 };
 
+
+// Escucha cambios en Firebase y actualiza el estado local
 const adoptState = payload => {
-    if (!payload || payload.sender === CLIENT_ID || !Array.isArray(payload.drawn)) return;
+    if (!payload || !Array.isArray(payload.drawn)) return;
     drawnNumbers = payload.drawn
         .map(n => Number(n))
         .filter(n => Number.isInteger(n) && n >= 1 && n <= TOTAL_BALLS);
@@ -151,13 +159,26 @@ const adoptState = payload => {
     refreshUI();
 };
 
+
 const hydrateState = () => {
+    // Si hay Firebase, escucha en tiempo real
+    if (window.db) {
+        window.db.ref("bingo/drawnNumbers").on("value", function(snapshot) {
+            const arr = snapshot.val();
+            if (Array.isArray(arr)) {
+                adoptState({ drawn: arr });
+            } else {
+                adoptState({ drawn: [] });
+            }
+        });
+        return;
+    }
+    // Fallback local
     const raw = localStorage.getItem(STATE_KEY);
     if (!raw) {
         resetGame();
         return;
     }
-
     try {
         const payload = JSON.parse(raw);
         if (payload && Array.isArray(payload.drawn)) {
